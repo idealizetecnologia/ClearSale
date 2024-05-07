@@ -16,6 +16,7 @@ class Item implements XmlEntityInterface
     private $isGift;
     private $categoryId;
     private $categoryName;
+    private $genericParameters;
 
     /**
      * Criar Item com campos obrigatórios preenchidos
@@ -151,6 +152,18 @@ class Item implements XmlEntityInterface
         return $this;
     }
 
+    public function getGenericParameters(): GenericParameters
+    {
+        return $this->genericParameters;
+    }
+
+    public function setGenericParameters(GenericParameters $genericParameters)
+    {
+        $this->genericParameters = $genericParameters;
+
+        return $this;
+    }
+
     public function toXML(XMLWriter $xml)
     {
         $xml->startElement("Item");
@@ -189,6 +202,10 @@ class Item implements XmlEntityInterface
 
         if ($this->categoryName) {
             $xml->writeElement("CategoryName", $this->categoryName);
+        }
+
+        if ($this->genericParameters){
+            $this->getGenericParameters()->toXML($xml);
         }
 
         $xml->endElement();
